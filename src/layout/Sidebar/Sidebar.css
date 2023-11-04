@@ -1,0 +1,25 @@
+.sidebar {
+  background-color: #f4f4f4;
+  width: 200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.sidebar ul li {
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  color: #333;
+}

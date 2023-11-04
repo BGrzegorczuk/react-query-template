@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
+import Header from "./layout/Header/Header";
+import Sidebar from "./layout/Sidebar/Sidebar";
+import Content from "./layout/Content/Content";
+import {RouterProvider} from "react-router-dom";
+import {router} from "./router";
 import './App.css';
 
-function App() {
+
+const queryClient = new QueryClient()
+
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.StrictMode>
+      <QueryClientProvider client={queryClient}>
+        <div className="app">
+          <Header />
+          <div className="main-container">
+            <Sidebar />
+            <Content>
+              {/*<RouterProvider router={router}/>*/}
+            </Content>
+          </div>
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </React.StrictMode>
   );
-}
+};
 
 export default App;
