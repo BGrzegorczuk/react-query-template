@@ -1,12 +1,20 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 
 const Input = ({ value, onChange }) => {
+
+    const ref = useRef(null);
+
     const handleInputChange = (e) => {
         onChange(e.target.value);
     };
 
+    useEffect(() => {
+        ref.current.focus();
+    }, []);
+
     return (
         <input
+          ref={ref}
             type="text"
             value={value}
             onChange={handleInputChange}

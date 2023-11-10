@@ -2,15 +2,13 @@ import React, {useCallback, useState} from "react";
 import {Link} from "react-router-dom";
 
 import Loader from "../../../../react-query-template/src/components/Loader/Loader";
-import {todosQueries, useTodoList} from "./queries";
-
-import "./Todos.css";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
-import {fetchTodos} from "./todoApi";
-import {debounce} from "../../utils";
+import {useTodoList} from "./queries";
 
 import Pagination from "../../components/Pagination/Pagination";
 import Input from "../../components/forms/Input/Input";
+import {useDebounce} from "../../hooks";
+
+import "./Todos.css";
 
 export const TodoListItem = ({todo, onTodoRemove}) => {
     const handleRemove = useCallback(
@@ -31,66 +29,44 @@ export const TodoListItem = ({todo, onTodoRemove}) => {
 
 
 export const TodoList = () => {
-  const queryClient = useQueryClient()
   const [search, setSearch] = useState('');
+  const debouncedSearch = useDebounce(search, 300);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  console.log({page, limit, search});
-  const { isPending, isError, isSuccess, data, error } = useTodoList();
+  // const [limit, setLimit] = useState(10);
+  const { isPending, isError, isSuccess, data, error } = useTodoList({
+    query: debouncedSearch,
+    page,
+    limit: 10,
+  });
 
-  console.log('TODOLIST RENDER');
-
-  const handleInputChange = useCallback((val) => {
+  const handleInputChange = (val) => {
     setSearch(val);
-    fetchTodos({page, limit, search: val});
-  }, []);
+  };
 
-  const fetchTodos = useCallback(({page, limit, search}) => debounce((
-    queryClient.fetchQuery({
-      queryKey: todosQueries.list(),
-      queryFn: () => fetchTodos({ page, limit, phrase: search })
-    })
-  ), 300), [queryClient, page, limit, search]);
+  return <div className="todo-list">
+    <h2>TodoList</h2>
 
-  // const fetchData = useCallback(debounce((e) => {
-  //   // Update the query key without causing re-renders
-  //   // queryClient.removeQueries(todosQueries.list();
-  //   setSearch(e.target.value);
-  //
-  //
-  //   queryClient.fetchQuery(
-  //     {
-  //       queryKey: todosQueries.list(),
-  //       queryFn: () => fetchTodos({page, limit, phrase: search})
-  //     });
-  //   // queryClient.invalidateQueries(['todos', { phrase: inputValue }]);
-  // }, 300), []);
+    <div className="todo-form">
+      <form id="todo-form">
+        <Input value={search} onChange={handleInputChange}/>
+      </form>
+    </div>
 
-  if (isPending) {
-    return <Loader/>;
-  }
-  else if (isError) {
-    return <div>{error.message}</div>;
-  }
+    {isPending && <Loader/>}
 
-  else if (isSuccess) {
-    return <div className="todo-list">
-      <h2>TodoList</h2>
+    {isError && <div>{error.message}</div>}
 
-      <div className="todo-form">
-        <form id="todo-form">
-          <Input value={search} onChange={handleInputChange}/>
-        </form>
-      </div>
-
+    {isSuccess && <>
       <ul className="todos">
         { data.map((todo) =>
-          <TodoListItem key={todo.id}
-                todo={todo}
-                onTodoRemove={() => {}}
+          <TodoListItem
+            key={todo.id}
+            todo={todo}
+            onTodoRemove={() => {}}
           />)}
       </ul>
-      <Pagination currentPage={page} totalPages={10}/>
-    </div>;
-  }
+      <Pagination currentPage={page} totalPages={10} onChangePage={setPage}/>
+    </>}
+  </div>;
+  // }
 }
