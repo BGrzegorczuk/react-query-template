@@ -4,7 +4,7 @@ import './Content.css';
 const Content = ({children}) => {
   return (
     <main className="content">
-      <p>{children}</p>
+      <section>{children}</section>
     </main>
   );
 };

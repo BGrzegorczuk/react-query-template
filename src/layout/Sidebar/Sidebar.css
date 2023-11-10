@@ -20,6 +20,11 @@
   cursor: pointer;
 }
 
-.sidebar ul li:hover {
+.sidebar ul a:hover {
   color: #333;
+}
+
+.sidebar ul a.active {
+  background-color: #3498db;
+  cursor: default;
 }

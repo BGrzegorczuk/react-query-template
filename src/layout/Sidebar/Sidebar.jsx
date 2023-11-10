@@ -1,13 +1,13 @@
 import React from 'react';
 import './Sidebar.css';
+import {NavLink} from "react-router-dom";
 
 const Sidebar = () => {
   return (
     <aside className="sidebar">
       <ul>
-        <li>Menu Item 1</li>
-        <li>Menu Item 2</li>
-        <li>Menu Item 3</li>
+        <NavLink to="todos">Todos</NavLink>
+        <NavLink to="blank">Blank</NavLink>
         {/* Add more menu items as needed */}
       </ul>
     </aside>
