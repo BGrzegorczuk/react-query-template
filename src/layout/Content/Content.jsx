@@ -1,11 +1,13 @@
 import React from 'react';
 import './Content.css';
 
-const Content = ({children}) => {
+const Content = ({ children }) => {
   return (
-    <main className="content">
-      <section>{children}</section>
-    </main>
+    <div className="content-container">
+      <div className="content-scrollable">
+        {children}
+      </div>
+    </div>
   );
 };
 

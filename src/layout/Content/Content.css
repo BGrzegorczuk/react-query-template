@@ -1,4 +1,12 @@
-.content {
-  padding: 20px;
-  flex-grow: 1;
+.content-container {
+  flex: 1;
+  overflow: hidden; /* Ensure the container does not overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+.content-scrollable {
+  flex: 1;
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 16px; /* Add padding as needed */
 }
