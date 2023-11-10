@@ -9,6 +9,10 @@ export const router = createBrowserRouter([
     path: "/",
     element: <TodoList/>,
   },
+  {
+    path: "/blank",
+    element: <div>blank</div>,
+  }
   // {
   //   path: "todo/:todoId",
   //   element: <TodoView/>,

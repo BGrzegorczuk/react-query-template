@@ -1,0 +1,80 @@
+.todo-list {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.todo-list h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.todos {
+    list-style: none;
+}
+
+.todo-item {
+    position: relative;
+    background-color: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.todo-item:hover {
+    background-color: #e9e9e9;
+}
+
+.todo-item.completed {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.remove-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Style for the form container */
+.todo-form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Style for the input element */
+#todo-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 60%;
+}
+
+/* Style for the submit button */
+#todo-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#todo-form button:hover {
+    background-color: #2980b9;
+}

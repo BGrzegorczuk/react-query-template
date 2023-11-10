@@ -1,0 +1,11 @@
+ReactQuery + useEffect
+https://github.com/themesberg/flowbite-react/issues/701
+
+Input loosing focus:
+
+https://github.com/TanStack/query/issues/2991
+
+check this: https://tkdodo.eu/blog/leveraging-the-query-function-context
+
+
+Maybe try to interact with quesyCLient directly?: https://tanstack.com/query/latest/docs/react/reference/QueryClient
