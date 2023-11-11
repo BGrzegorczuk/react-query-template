@@ -12,9 +12,10 @@ todoRouter.get('/', (req, res) => {
   const start = (page-1) * +limit;
   const end = start + +limit;
 
-  res.json(
-    filteredTodos.slice(start, end)
-  );
+  res.json({
+    items: filteredTodos.slice(start, end),
+    totalCount: filteredTodos.length
+  });
 
 });
 todoRouter.get('/:id', (req, res) => {
