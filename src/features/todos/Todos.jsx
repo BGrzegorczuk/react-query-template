@@ -1,12 +1,12 @@
-import React, {useCallback, useState} from "react";
-import {Link} from "react-router-dom";
+import React, {useCallback, useEffect, useState} from "react";
+import {Link, useSearchParams} from "react-router-dom";
 
 import Loader from "../../../../react-query-template/src/components/Loader/Loader";
 import {useTodoList} from "./queries";
 
 import Pagination from "../../components/Pagination/Pagination";
 import Input from "../../components/forms/Input/Input";
-import {useDebounce} from "../../hooks";
+import {useDebouncedValue} from "../../hooks";
 
 import "./Todos.css";
 
@@ -28,16 +28,32 @@ export const TodoListItem = ({todo, onTodoRemove}) => {
 }
 
 
+const DEBOUNCE_TIME = 300;
+const QUERY_LIMIT = 20;
+
 export const TodoList = () => {
-  const [search, setSearch] = useState('');
-  const debouncedSearch = useDebounce(search, 300);
-  const [page, setPage] = useState(1);
-  // const [limit, setLimit] = useState(10);
-  const { isPending, isError, isSuccess, data, error } = useTodoList({
-    query: debouncedSearch,
+  let [queryParams, setQueryParams] = useSearchParams();
+
+  let [search, setSearch] = useState(queryParams.get('query') || '');
+  let debouncedSearch = useDebouncedValue(search, DEBOUNCE_TIME);
+
+  let [page, setPage] = useState(+queryParams.get('page') || 1);
+  const [limit, setLimit] = useState(+queryParams.get('limit') || QUERY_LIMIT);
+
+  let { isPending, isError, isSuccess, data, error } = useTodoList({
+    ...debouncedSearch.length && { query: debouncedSearch },
     page,
-    limit: 10,
+    limit
   });
+
+  // update query params
+  useEffect(() => {
+    setQueryParams({
+      ...debouncedSearch.length && { query: debouncedSearch },
+      page,
+      limit
+    })
+  }, [debouncedSearch, page, limit, setQueryParams]);
 
   const handleInputChange = (val) => {
     setSearch(val);
@@ -57,16 +73,23 @@ export const TodoList = () => {
     {isError && <div>{error.message}</div>}
 
     {isSuccess && <>
+      { data.items?.length === 0 && <div>No todos found</div> }
+
       <ul className="todos">
-        { data.map((todo) =>
+        { data.items?.map((todo) =>
           <TodoListItem
             key={todo.id}
             todo={todo}
             onTodoRemove={() => {}}
           />)}
       </ul>
-      <Pagination currentPage={page} totalPages={10} onChangePage={setPage}/>
+
+      { data.items?.length !== 0 &&
+        <Pagination
+          currentPage={page}
+          totalPages={Math.ceil(data.totalCount / limit)}
+          onChangePage={setPage}
+        />}
     </>}
   </div>;
-  // }
 }

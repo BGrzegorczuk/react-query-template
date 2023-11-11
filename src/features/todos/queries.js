@@ -1,8 +1,6 @@
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
 import {fetchTodos} from "./todoApi";
 
-const DEFAULT_LIMIT = 10;
-
 export const todosQueries = {
   all: ['todos'],
   // lists: () => [...todosQueries.all, 'lists'],
@@ -12,16 +10,8 @@ export const todosQueries = {
 };
 
 export const useTodoList = ({page, limit, query}) => useQuery({
-  queryKey: todosQueries.list({
-    query,
-    page,
-    limit: limit || DEFAULT_LIMIT,
-  }),
-  queryFn: () => fetchTodos({
-    query,
-    page,
-    limit: limit || DEFAULT_LIMIT,
-  }),
+  queryKey: todosQueries.list({query, page, limit}),
+  queryFn: () => fetchTodos({query, page, limit}),
   placeholderData: keepPreviousData,
   refetchOnWindowFocus: false,
   refetchOnMount: false,
