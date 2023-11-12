@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from "react";
 import {Link, useSearchParams} from "react-router-dom";
 
 import Loader from "../../../../react-query-template/src/components/Loader/Loader";
-import {useTodoList} from "./queries";
+import {useTodoListQuery} from "./queries";
 
 import Pagination from "../../components/Pagination/Pagination";
 import Input from "../../components/forms/Input/Input";
@@ -40,7 +40,7 @@ export const TodoList = () => {
   let [page, setPage] = useState(+queryParams.get('page') || 1);
   const [limit, setLimit] = useState(+queryParams.get('limit') || QUERY_LIMIT);
 
-  let { isPending, isError, isSuccess, data, error } = useTodoList({
+  let { isPending, isError, isSuccess, data, error } = useTodoListQuery({
     ...debouncedSearch.length && { query: debouncedSearch },
     page,
     limit
@@ -52,7 +52,7 @@ export const TodoList = () => {
       ...debouncedSearch.length && { query: debouncedSearch },
       page,
       limit
-    })
+    }, { replace: true });
   }, [debouncedSearch, page, limit, setQueryParams]);
 
   const handleInputChange = (val) => {
@@ -60,8 +60,6 @@ export const TodoList = () => {
   };
 
   return <div className="todo-list">
-    <h2>TodoList</h2>
-
     <div className="todo-form">
       <form id="todo-form">
         <Input value={search} onChange={handleInputChange}/>

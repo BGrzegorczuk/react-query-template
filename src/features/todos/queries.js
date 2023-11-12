@@ -1,25 +1,33 @@
 import {keepPreviousData, useQuery} from "@tanstack/react-query";
-import {fetchTodos} from "./todoApi";
+import {fetchTodos, fetchTodo} from "./todoApi";
+import {commonQueryConfig} from "../../config/query.config";
 
-export const todosQueries = {
+export const todoQueries = {
   all: ['todos'],
-  // lists: () => [...todosQueries.all, 'lists'],
-  list: (filters) => [...todosQueries.all, 'list', filters],
-  // details: (id) => [...todosQueries.all, 'details'],
-  detail: (id) => [...todosQueries.all, 'detail', id],
+  // lists: () => [...todoQueries.all, 'lists'],
+  list: (filters={}) => [...todoQueries.all, 'list', filters],
+  views: () => [...todoQueries.all, 'views'],
+  view: (id) => [...todoQueries.views(), id],
 };
 
-export const useTodoList = ({page, limit, query}) => useQuery({
-  queryKey: todosQueries.list({query, page, limit}),
+export const useTodoListQuery = (
+  { page, limit, query },
+  additionalOpts = {}
+) => useQuery({
+  queryKey: todoQueries.list({query, page, limit}),
   queryFn: () => fetchTodos({query, page, limit}),
   placeholderData: keepPreviousData,
-  refetchOnWindowFocus: false,
-  refetchOnMount: false,
-  // refetchOnReconnect: false,
-  // refetchInterval: 5 * 1000,
-  // refetchIntervalInBackground: true,
-  // refetchIntervalInBackgroundDelay: 5 * 1000,
-  retry: 3,
-  // retryDelay: 5 * 1000,
-  staleTime: 5 * 1000
+  ...commonQueryConfig,
+  ...additionalOpts
+});
+
+export const useTodoDetailsQuery = (
+  id,
+  additionalOpts = {}
+) => useQuery({
+  queryKey: todoQueries.view(id),
+  queryFn: () => fetchTodo(id),
+  placeholderData: keepPreviousData,
+  ...commonQueryConfig,
+  ...additionalOpts
 });

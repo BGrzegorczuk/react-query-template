@@ -1,4 +1,3 @@
 TODOS:
-- url query params on filtering
-- handle filtering on the server
+- React.lazy & Suspense (problematic with react-query: https://tkdodo.eu/blog/seeding-the-query-cache#suspense-waterfalls)
 -

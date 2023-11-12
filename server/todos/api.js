@@ -1,6 +1,6 @@
 const express = require("express");
-const {todos} = require("./db");
 const todoRouter = express.Router();
+const {todos} = require("./db");
 
 todoRouter.get('/', (req, res) => {
   console.log('GET /api/todos', req.query);

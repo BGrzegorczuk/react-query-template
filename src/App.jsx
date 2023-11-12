@@ -12,6 +12,13 @@ import {TodoView} from "./features/todos/TodoView";
 
 const queryClient = new QueryClient()
 
+// Potential solution: lazy load routes
+// const TodoList = lazy(() => import('./features/todos/Todos'));
+// const TodoView = lazy(() => import('./features/todos/TodoView'));
+// React.lazy & Suspense for routes
+// Error Boundary
+
+
 const App = () => {
   return (
     <React.StrictMode>
