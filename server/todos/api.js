@@ -16,7 +16,6 @@ todoRouter.get('/', (req, res) => {
     items: filteredTodos.slice(start, end),
     totalCount: filteredTodos.length
   });
-
 });
 todoRouter.get('/:id', (req, res) => {
   const todo = todos.find((todo) => todo.id === +req.params.id);

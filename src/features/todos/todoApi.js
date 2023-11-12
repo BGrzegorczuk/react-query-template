@@ -1,7 +1,7 @@
 import { apiClient } from "../../providers/api";
 
 export const fetchTodos = async ({query, page, limit}) => {
-  const res = await apiClient.get('todos', {params: {
+  const res = await apiClient.get('/todos', {params: {
     query,
     page,
     limit
@@ -10,6 +10,6 @@ export const fetchTodos = async ({query, page, limit}) => {
 }
 
 export const fetchTodo = async (id) => {
-  const res = await apiClient.get(`todos/${id}`);
+  const res = await apiClient.get(`/todos/${id}`);
   return res.data;
 }

@@ -39,7 +39,7 @@
     color: #999;
 }
 
-.remove-button {
+.todo-item .remove-button {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
